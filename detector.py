@@ -9,6 +9,8 @@ class Detector(object):
         
     def start(self):
         while True:
+            # The camera always start off detecting motion, so wait until it see no motion
+            self.pir.wait_for_no_motion()
             self.pir.wait_for_motion()
             print("Motion detect!")
             self.start_camera()
@@ -19,7 +21,7 @@ class Detector(object):
     def start_camera(self):
         datename = "{0:%Y}-{0:%m}-{0:%d}:{0:%H}:{0:%M}:{0:%S}".format(datetime.now())
         filename = str(datename) + "video.h264"
-        self.camera.resolution = (640, 480)
+        self.camera.resolution = (1920, 1080)
         self.camera.rotation = 180
         self.camera.start_recording(filename)
     
