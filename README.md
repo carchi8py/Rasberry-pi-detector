@@ -10,6 +10,7 @@ The following need to be pip installed
 ## Versions
 * [0.1](https://carchi8py.com/2021/01/08/setting-up-the-raspberry-pi/)
 * [0.2](https://carchi8py.com/2021/01/22/simple-image-detection-with-aws-rekognition/)
+* [0.3](https://carchi8py.com/2021/04/06/aws-rekognition-and-raspberry-pi-working-together/)
 ## Authors
 * [carchi8py](https://www.carchi8py.com)
 
