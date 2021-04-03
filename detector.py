@@ -1,6 +1,8 @@
 from gpiozero import MotionSensor
 from picamera import PiCamera
 from datetime import datetime
+import boto3
+import csv
 
 
 class Detector(object):
@@ -10,10 +12,16 @@ class Detector(object):
     def __init__(self):
         self.pir = MotionSensor(4, threshold=0.5)
         self.camera = PiCamera()
+        cred = 'new_user_credentials.csv'
+        with open(cred, 'r') as cred_file:
+            csvreader = csv.DictReader(cred_file)
+            for row in csvreader:
+                self.aws_access_key_id = row['Access key ID']
+                self.aws_secret_key = row['Secret access key']
         
     def start(self):
         """
-        When motion is dected start camera until motion is no longer detected
+        When motion is detected start camera until motion is no longer detected
         """
         while True:
             # The camera always start off detecting motion, so wait until it see no motion
@@ -21,9 +29,11 @@ class Detector(object):
             self.pir.wait_for_motion()
             print("Motion detect!")
             self.start_camera()
-            self.pir.wait_for_no_motion()
-            print("No Motion")
-            self.camera.stop_recording()
+            self.stop_camera()
+
+    def take_picture(self):
+        self.camera.resolution = (1920, 1080)
+        self.camera.rotation = 180
         
     def start_camera(self):
         """
@@ -34,6 +44,11 @@ class Detector(object):
         self.camera.resolution = (1920, 1080)
         self.camera.rotation = 180
         self.camera.start_recording(filename)
+
+    def stop_camera(self):
+        self.pir.wait_for_no_motion()
+        print("No Motion")
+        self.camera.stop_recording()
 
 
 def main():
