@@ -5,9 +5,10 @@ import csv
 import boto3
 from time import sleep
 
+
 class Detector(object):
     def __init__(self):
-        #4 = the pin on the Rasberry pi that the MotionSensor is connected to
+        # 4 = the pin on the Rasberry pi that the MotionSensor is connected to
         self.pir = MotionSensor(4, threshold=0.5)
         self.camera = PiCamera()
         self.source_photo = 'test.jpg'
@@ -67,7 +68,7 @@ class Detector(object):
         for each in results['Labels']:
             print(each['Name'] + ": " + str(each['Confidence']))
         
-    
+
 def main():
     obj = Detector()
     obj.start()
